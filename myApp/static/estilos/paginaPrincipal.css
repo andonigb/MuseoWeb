@@ -15,9 +15,9 @@ body {
     width: 350px;
     padding: 20px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
-    border: 2px solid rgba(255, 255, 255, 0.5); /* Borde blanco */
-    backdrop-filter: blur(10px); /* Desenfoque de fondo */
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.5); 
+    backdrop-filter: blur(10px); 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     color: #ffffff;
     text-align: center;
