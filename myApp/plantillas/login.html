@@ -1,17 +1,17 @@
-
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Login - Museo Online</title>
-    <link rel="stylesheet" href="{% static '../static/estilos/paginaPrincipal.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos/login.css' %}">
+
 
 </head>
 </head>
 <body>
     <div class="login-container">
-        <h2>Bienvenido al Museo Online</h2>
+        <h2>Bienvenido a Infinite Gallery</h2>
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
             <label for="username">Usuario:</label>

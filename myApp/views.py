@@ -1,6 +1,15 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth import login
+from .models import Usuario
+from django.shortcuts import render, redirect
 
-class MuseoLoginView(LoginView):
-    template_name = 'login.html'
+def login_view(request):
+    if request.method == 'POST':
+        
+        return redirect('paginaPrincipal')  
+    return render(request, 'login.html')
+
+def paginaPrincipal(request):
+    return render(request, 'paginaPrincipal.html')
+
+    

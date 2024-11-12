@@ -1,0 +1,132 @@
+/* Estilos generales */
+body {
+    background-color: #1a1a1d; /* Fondo oscuro para el body */
+    color: #e6e6e6;
+    font-family: Arial, sans-serif;
+    margin: 0;
+}
+
+/* Encabezado */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #2b2b2e;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Logo */
+.header .logo .home-icon {
+    width: 50px;
+    cursor: pointer;
+}
+
+/* Barra de búsqueda */
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.search-bar input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #3d3d42;
+    color: #e6e6e6;
+    outline: none;
+    transition: background-color 0.3s;
+    width: 200px;
+}
+
+.search-bar input[type="text"]::placeholder {
+    color: #cccccc;
+}
+
+.search-bar button {
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 50%;
+    background-color: #4a4a4e;
+    color: #ffffff;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #616165;
+}
+
+/* Iconos de header */
+.header-icons img {
+    width: 30px;
+    margin-left: 15px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.header-icons img:hover {
+    transform: scale(1.1);
+}
+
+/* Contenido principal */
+main {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Secciones de categorías */
+.carousel {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.carousel h2 {
+    font-size: 24px;
+    color: #a0c4ff;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+}
+
+.carousel-container {
+    display: flex;
+    justify-content: center;
+    overflow: hidden; /* Oculta las barras de desplazamiento */
+    width: 80%;
+    height: 200px;
+    margin: 0 auto;
+}
+.carousel-track {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto; /* Permite el desplazamiento horizontal */
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;  /* Oculta scrollbar en IE y Edge */
+    scrollbar-width: none;  /* Oculta scrollbar en Firefox */
+}
+
+.carousel-track::-webkit-scrollbar {
+    display: none; /* Oculta scrollbar en Chrome, Safari y Opera */
+}
+
+.carousel-track img {
+    width: 250px;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.carousel-track img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+}
+
+
