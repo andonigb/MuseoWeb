@@ -1,0 +1,64 @@
+body {
+    background-image: url('../imagenes/fondo.jpg');
+    background-size: cover;
+    background-position: center;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.login-container {
+    width: 350px;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1); /* Fondo translúcido */
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Borde blanco */
+    backdrop-filter: blur(10px); /* Desenfoque de fondo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    color: #ffffff;
+    text-align: center;
+}
+
+.login-container h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.login-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    background: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.login-container button {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #ffffff;
+    color: #000000;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #dddddd;
+}

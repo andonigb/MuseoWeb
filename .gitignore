@@ -1,1 +1,4 @@
 entornoMuseo/
+__pycache__/
+*.pyc
+*.pyo

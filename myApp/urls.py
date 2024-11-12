@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
+from .views import MuseoLoginView
 
 urlpatterns = [
-    path('nombre/', views.mostrar_nombre, name='mostrar_nombre'),
+    path('', MuseoLoginView.as_view(), name='login'),
 ]

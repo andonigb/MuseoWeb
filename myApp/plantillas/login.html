@@ -1,0 +1,26 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Museo Online</title>
+    <link rel="stylesheet" href="{% static '../static/estilos/paginaPrincipal.css' %}">
+</head>
+<body>
+    <div class="login-container">
+        <h2>Bienvenido al Museo Online</h2>
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <label for="username">Usuario:</label>
+            <input type="text" id="username" name="username" required>
+            
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <button type="submit">Iniciar sesión</button>
+        </form>
+    </div>
+</body>
+</html>

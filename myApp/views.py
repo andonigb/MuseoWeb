@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.contrib.auth.views import LoginView
 
-def mostrar_nombre(request):
-    return HttpResponse('Vincent Van Gogh')
-
+class MuseoLoginView(LoginView):
+    template_name = 'login.html'
