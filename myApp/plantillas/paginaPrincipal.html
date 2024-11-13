@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,20 +26,19 @@
 
     <!-- Main content -->
     <main>
-        <!-- Categoría 1 -->
+        <!-- Categoría 1: Artistas -->
         <section class="carousel">
             <h2>Artistas</h2>
             <div class="carousel-container">
                 <div class="carousel-track">
-                    <img src="{% static 'imagenes/Artistas/Dali/Dali.jpg' %}" alt="Artista 1">
-                    <img src="{% static 'imagenes/Artistas/Da-Vinci/da-Vinci.jpg' %}" alt="Artista 2">
-                    <img src="{% static 'imagenes/Artistas/Picasso/Picasso.jpg' %}" alt="Artista 3">
-                    <img src="{% static 'imagenes/Artistas/Van-Gogh/Van-Gogh.jpg' %}" alt="Artista 4">
-                    <img src="{% static 'imagenes/Artistas/Goya/Goya.jpg' %}" alt="Artista 5">
+                    {% for artista in artistas %}
+                        <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}">
+                    {% endfor %}
                 </div>
             </div>
         </section>
 
+        <!-- Categoría 2: Movimientos -->
         <section class="carousel">
             <h2>Movimientos</h2>
             <div class="carousel-container">
@@ -52,6 +52,7 @@
             </div>
         </section>
 
+        <!-- Categoría 3: Museos -->
         <section class="carousel">
             <h2>Museos</h2>
             <div class="carousel-container">
