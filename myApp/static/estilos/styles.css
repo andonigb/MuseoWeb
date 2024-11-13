@@ -22,7 +22,9 @@ body {
 /* Logo */
 .header .logo .home-icon {
     width: 50px;
+    border-radius: 50%;
     cursor: pointer;
+    transition: transform 0.3s;
 }
 
 /* Barra de búsqueda */
