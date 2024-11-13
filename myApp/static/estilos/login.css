@@ -77,6 +77,12 @@ body {
     border-color: #7ea8f7;
 }
 
+/* Resaltar los campos con error (bordes rojos) */
+.login-container input.input-error {
+    border-color: red;
+    background: rgba(255, 0, 0, 0.1);  /* Fondo rojo translúcido */
+}
+
 /* Botón de login */
 .login-container button {
     width: 30%;
@@ -95,4 +101,19 @@ body {
 .login-container button:hover {
     background-color: #a0c4ff;
     transform: translateY(-2px);
+}
+
+/* Estilo para el mensaje de error */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    animation: fadeIn 3s ease-in-out;  /* Efecto de desvanecimiento */
+}
+
+/* Animación para hacer que el mensaje de error desaparezca después de un tiempo */
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    100% { opacity: 0; }
 }
