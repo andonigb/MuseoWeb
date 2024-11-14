@@ -14,10 +14,13 @@ class Artista(models.Model):
     id_artista = models.IntegerField(primary_key=True)
     nom_artista = models.CharField(max_length=100)
     pais_artista = models.CharField(max_length=100)
-    ruta_artista = models.CharField(max_length=100) #ruta a la imagen del artista
-    
+    ruta_artista = models.CharField(max_length=100)  # Ruta a la imagen del artista
+    biografia = models.TextField(null=False)  # Nueva columna de biografía
+    curiosidades = models.TextField(null=True)  # Nueva columna de curiosidades
+
     def __str__(self):
         return self.nom_artista
+
     
 class Epoca(models.Model):
     id_epoca = models.IntegerField(primary_key=True)

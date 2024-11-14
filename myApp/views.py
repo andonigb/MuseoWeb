@@ -1,9 +1,9 @@
 import os
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.templatetags.static import static
 from django.contrib import messages
 from django.conf import settings
-from .models import Usuario
+from .models import Usuario, Artista
 
 def login_view(request):
     if request.method == 'POST':
@@ -33,18 +33,36 @@ def login_view(request):
 
     return render(request, 'login.html')
 
+
 def principal_view(request):
-    print("Pasa")
     artistas_folder = os.path.join(settings.BASE_DIR, 'myApp/static/imagenes/artistas')
     artistas = []
-    for folder_name in os.listdir(artistas_folder):
-        artist_folder_path = os.path.join(artistas_folder, folder_name)
-        if os.path.isdir(artist_folder_path):
-            image_path = static(f'imagenes/artistas/{folder_name}/{folder_name}.jpg')
-            artistas.append({'nombre': folder_name, 'image_path': image_path})
-            print("Ruta generada:", image_path)  # Para verificar la ruta en la consola
+
+    for artist in Artista.objects.all():  # Obtén los datos de cada artista desde la base de datos
+        artist_folder_path = os.path.join(artistas_folder, artist.nom_artista)  # Usa el nombre del artista para buscar la imagen
+        image_path = static(f'imagenes/artistas/{artist.nom_artista}/{artist.nom_artista}.jpg')
+        artistas.append({'id_artista': artist.id_artista, 'nombre': artist.nom_artista, 'image_path': image_path})
+        print("Ruta generada:", image_path)  # Para verificar la ruta en la consola
 
     return render(request, 'paginaPrincipal.html', {'artistas': artistas})
+
+
+def detalle_artista(request, nombre):
+    # Obtén el artista desde la base de datos usando el nombre completo
+    artista_obj = get_object_or_404(Artista, nom_artista=nombre)
+
+    # Crea un diccionario con los detalles del artista
+    artista = {
+        "ID": artista_obj.id_artista,
+        "Nombre": artista_obj.nom_artista,
+        "Nacionalidad": artista_obj.pais_artista,
+        "Biografía": artista_obj.biografia,
+        "Curiosidades": artista_obj.curiosidades,
+    }
+    print(artista["Curiosidades"])
+    return render(request, 'artista.html', {'artista': artista})
+
+
 
 
 

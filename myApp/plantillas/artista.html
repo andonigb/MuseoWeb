@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ artista.Nombre }}</title>
+    <link rel="stylesheet" href="{% static 'estilos/artista.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <img src="{% static 'imagenes/Logo.png' %}" alt="Inicio" class="home-icon">
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder="Buscar..." />
+            <button>🔍</button>
+        </div>
+        <div class="header-icons">
+            <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
+            <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="artist-container">
+        <section class="artist-info">
+            <h1>{{ artista.Nombre }}</h1>
+            <p><strong>Nacionalidad:</strong> {{ artista.Nacionalidad }}</p>
+            
+            <!-- Biografía Section -->
+            <div class="biography">
+                <h2>Biografía</h2>
+                <p>{{ artista.Biografía }}</p>
+            </div>
+    
+            <div class="curiosities">
+                <h2>Curiosidades</h2>
+                <p>{{ artista.Curiosidades }}</p>
+            </div>
+        </section>
+    </main>
+    
+</body>
+</html>

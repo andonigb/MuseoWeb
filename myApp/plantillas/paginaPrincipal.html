@@ -32,11 +32,15 @@
             <div class="carousel-container">
                 <div class="carousel-track">
                     {% for artista in artistas %}
+                    <a href="{% url 'detalle_artista' nombre=artista.nombre %}">
                         <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}">
+                    </a>                    
                     {% endfor %}
                 </div>
             </div>
         </section>
+        
+
 
         <!-- Categoría 2: Movimientos -->
         <section class="carousel">
