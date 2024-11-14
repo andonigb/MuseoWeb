@@ -35,11 +35,10 @@ def login_view(request):
 
 
 def principal_view(request):
-    artistas_folder = os.path.join(settings.BASE_DIR, 'myApp/static/imagenes/artistas')
+    
     artistas = []
 
     for artist in Artista.objects.all():  # Obtén los datos de cada artista desde la base de datos
-        artist_folder_path = os.path.join(artistas_folder, artist.nom_artista)  # Usa el nombre del artista para buscar la imagen
         image_path = static(f'imagenes/artistas/{artist.nom_artista}/{artist.nom_artista}.jpg')
         artistas.append({'id_artista': artist.id_artista, 'nombre': artist.nom_artista, 'image_path': image_path})
 
@@ -48,23 +47,11 @@ def principal_view(request):
 
 def detalle_artista(request, nombre):
     # Obtén el artista desde la base de datos usando el nombre completo
-    artista_obj = get_object_or_404(Artista, nom_artista=nombre)
-    obras_folder = os.path.join(settings.BASE_DIR, 'myApp/static/imagenes/artistas', artista_obj.nom_artista)
-
-    # Crea un diccionario con los detalles del artista
-    artista = {
-        "ID": artista_obj.id_artista,
-        "Nombre": artista_obj.nom_artista,
-        "Nacionalidad": artista_obj.pais_artista,
-        "Biografía": artista_obj.biografia,
-        "Curiosidades": artista_obj.curiosidades,
-    }
- 
+    artista_obj = get_object_or_404(Artista, nom_artista=nombre) 
     # Obtén las obras del artista
     obras = Obras.objects.filter(id_artista=artista_obj)
     obra = []
     for o in obras:
-        obra_folder_path = os.path.join(obras_folder, o.nom_obra)
         image_path = static(f'imagenes/artistas/{artista_obj.nom_artista}/obras/{o.nom_obra}.jpg')
         obra.append({'image_path': image_path})
 
@@ -74,7 +61,16 @@ def detalle_artista(request, nombre):
         'obra': obra, 
     })
 
+def detalle_obra(request, nombre):
+    obra = get_object_or_404(Obras, nom_obra=nombre, artista=artista_instance)
+    artista_instance = get_object_or_404(Artista, id_artista = obra.id_artista)
+    image_path = static(f'imagenes/artistas/{artista_instance.nom_artista}/obras/{nombre}.jpg')
+    path = [{'image_path': image_path}]
 
+    return render(request, 'obra.html', {
+        'obra': obra,
+        'path': path,
+    })
 
 
 

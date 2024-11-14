@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Principal</title>
-    <link rel="stylesheet" href="{% static 'estilos/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos/principal.css' %}">
 </head>
 <body>
     <!-- Header -->
@@ -33,33 +33,28 @@
 <section class="carousel">
     <h2>Artistas</h2>
     <div class="carousel-container">
-        <div class="carousel-track">
-            {% for artista in artistas %}
-                <a href="{% url 'detalle_artista' nombre=artista.nombre %}" class="artista-item">
-                    <div class="artista-img-container">
-                        <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}" class="artista-img">
-                        <div class="artista-name">{{ artista.nombre }}</div>
-                    </div>
-                </a>                    
-            {% endfor %}
-        </div>
+        {% for artista in artistas %}
+            <a href="{% url 'detalle_artista' nombre=artista.nombre %}" class="artista-item">
+                <div class="artista-img-container">
+                    <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}" class="artista-img">
+                    <div class="artista-name">{{ artista.nombre }}</div>
+                </div>
+            </a>                    
+        {% endfor %}
     </div>
 </section>
-
-        
 
 
         <!-- Categoría 2: Movimientos -->
         <section class="carousel">
             <h2>Movimientos</h2>
             <div class="carousel-container">
-                <div class="carousel-track">
-                    <img src="{% static 'imagenes/Movimientos/barroco.jpg' %}" alt="Barroco">
-                    <img src="{% static 'imagenes/Movimientos/cubismo.webp' %}" alt="Cubismo">
-                    <img src="{% static 'imagenes/Movimientos/renacimiento.jpg' %}" alt="Renacimiento">
-                    <img src="{% static 'imagenes/Movimientos/surrealismo.webp' %}" alt="Surrealismo">
-                    <img src="{% static 'imagenes/Movimientos/ukiyo-e.jpg' %}" alt="Ukiyo-e">
-                </div>
+                <img src="{% static 'imagenes/Movimientos/barroco.jpg' %}" alt="Barroco">
+                <img src="{% static 'imagenes/Movimientos/cubismo.webp' %}" alt="Cubismo">
+                <img src="{% static 'imagenes/Movimientos/renacimiento.jpg' %}" alt="Renacimiento">
+                <img src="{% static 'imagenes/Movimientos/surrealismo.webp' %}" alt="Surrealismo">
+                <img src="{% static 'imagenes/Movimientos/ukiyo-e.jpg' %}" alt="Ukiyo-e">
+
             </div>
         </section>
 
@@ -67,13 +62,11 @@
         <section class="carousel">
             <h2>Museos</h2>
             <div class="carousel-container">
-                <div class="carousel-track">
-                    <img src="{% static 'imagenes/Museos/Louvre/Logo.jpg' %}" alt="Louvre">
-                    <img src="{% static 'imagenes/Museos/Prado/Logo.png' %}" alt="Prado">
-                    <img src="{% static 'imagenes/Museos/MET/Logo.webp' %}" alt="MET">
-                    <img src="{% static 'imagenes/Museos/Uffizi/Logo.jpg' %}" alt="Uffi">
-                    <img src="{% static 'imagenes/Museos/Orsay/Logo.png' %}" alt="Orsay">
-                </div>
+                <img src="{% static 'imagenes/Museos/Louvre/Logo.jpg' %}" alt="Louvre">
+                <img src="{% static 'imagenes/Museos/Prado/Logo.png' %}" alt="Prado">
+                <img src="{% static 'imagenes/Museos/MET/Logo.webp' %}" alt="MET">
+                <img src="{% static 'imagenes/Museos/Uffizi/Logo.jpg' %}" alt="Uffi">
+                <img src="{% static 'imagenes/Museos/Orsay/Logo.png' %}" alt="Orsay">
             </div>
         </section>
     </main>

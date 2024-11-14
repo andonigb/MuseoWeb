@@ -47,7 +47,8 @@ class Obras(models.Model):
     id_epoca = models.ForeignKey(Epoca, on_delete=models.CASCADE)
     id_museo = models.ForeignKey(Museo, on_delete=models.CASCADE)
     num_meGustas = models.IntegerField(default=0)
-    ruta_obra = models.CharField(max_length=100) #ruta a la imagen de la obra
+    ruta_obra = models.CharField(max_length=100)
+    info = models.TextField(null=False) 
 
     def __str__(self):
         return self.nom_obra
