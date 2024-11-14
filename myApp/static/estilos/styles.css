@@ -133,3 +133,51 @@ main {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
 }
+/* Estilos para las imágenes de los artistas */
+.artista-item {
+    position: relative; /* Para posicionar el nombre sobre la imagen */
+    display: inline-block;
+}
+
+.artista-img-container {
+    position: relative;
+    width: 250px;  /* Mismo tamaño que la imagen */
+    height: 250px; /* Mismo tamaño que la imagen */
+}
+
+.artista-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block; /* Asegura que la imagen ocupe el espacio completo */
+}
+
+/* Nombre del artista (inicialmente oculto) */
+.artista-name {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Fondo semitransparente */
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    text-align: center;
+    border-radius: 0 0 10px 10px; /* Esquinas redondeadas en la parte inferior */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+/* Efecto hover: cuando el ratón pasa sobre la imagen */
+.artista-img-container:hover .artista-name {
+    opacity: 1;
+}
+
+/* Efecto de hover en la imagen */
+.artista-img-container:hover .artista-img {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño de la imagen */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6); /* Sombra al pasar el ratón */
+}
+

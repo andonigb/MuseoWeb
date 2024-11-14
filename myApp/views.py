@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.templatetags.static import static
 from django.contrib import messages
 from django.conf import settings
-from .models import Usuario, Artista
+from .models import Usuario, Artista, Obras, Museo
 
 def login_view(request):
     if request.method == 'POST':
@@ -42,7 +42,6 @@ def principal_view(request):
         artist_folder_path = os.path.join(artistas_folder, artist.nom_artista)  # Usa el nombre del artista para buscar la imagen
         image_path = static(f'imagenes/artistas/{artist.nom_artista}/{artist.nom_artista}.jpg')
         artistas.append({'id_artista': artist.id_artista, 'nombre': artist.nom_artista, 'image_path': image_path})
-        print("Ruta generada:", image_path)  # Para verificar la ruta en la consola
 
     return render(request, 'paginaPrincipal.html', {'artistas': artistas})
 
@@ -50,6 +49,7 @@ def principal_view(request):
 def detalle_artista(request, nombre):
     # Obtén el artista desde la base de datos usando el nombre completo
     artista_obj = get_object_or_404(Artista, nom_artista=nombre)
+    obras_folder = os.path.join(settings.BASE_DIR, 'myApp/static/imagenes/artistas', artista_obj.nom_artista)
 
     # Crea un diccionario con los detalles del artista
     artista = {
@@ -59,8 +59,20 @@ def detalle_artista(request, nombre):
         "Biografía": artista_obj.biografia,
         "Curiosidades": artista_obj.curiosidades,
     }
-    print(artista["Curiosidades"])
-    return render(request, 'artista.html', {'artista': artista})
+ 
+    # Obtén las obras del artista
+    obras = Obras.objects.filter(id_artista=artista_obj)
+    obra = []
+    for o in obras:
+        obra_folder_path = os.path.join(obras_folder, o.nom_obra)
+        image_path = static(f'imagenes/artistas/{artista_obj.nom_artista}/obras/{o.nom_obra}.jpg')
+        obra.append({'image_path': image_path})
+
+    return render(request, 'artista.html', {
+        'artista': artista_obj,
+        'obras': obras,
+        'obra': obra, 
+    })
 
 
 

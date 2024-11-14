@@ -55,3 +55,7 @@ class Obras(models.Model):
 class favoritas(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     id_obra = models.ForeignKey(Obras, on_delete=models.CASCADE)
+
+class obrasArtista(models.Model):
+    id_obra = models.ForeignKey(Obras, on_delete=models.CASCADE)
+    id_artista = models.ForeignKey(Artista, on_delete=models.CASCADE)

@@ -22,25 +22,43 @@
             <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
         </div>
     </header>
+
+
     
     <!-- Main Content -->
     <main class="artist-container">
-        <section class="artist-info">
-            <h1>{{ artista.Nombre }}</h1>
-            <p><strong>Nacionalidad:</strong> {{ artista.Nacionalidad }}</p>
-            
-            <!-- Biografía Section -->
-            <div class="biography">
-                <h2>Biografía</h2>
-                <p>{{ artista.Biografía }}</p>
+        <aside class="artist-container">
+            <div class="artist-info">
+                <h1>{{ artista.nom_artista }}</h1>
+                <p><strong>Nacionalidad:</strong> {{ artista.pais_artista }}</p>
+                
+                <!-- Biografía Section -->
+                <div class="biography">
+                    <h2>Biografía</h2>
+                    <p>{{ artista.biografia }}</p>
+                </div>
+        
+                <div class="curiosities">
+                    <h2>Curiosidades</h2>
+                    <p>{{ artista.curiosidades }}</p>
+                </div>
             </div>
-    
-            <div class="curiosities">
-                <h2>Curiosidades</h2>
-                <p>{{ artista.Curiosidades }}</p>
+          </aside>
+        <!-- Carrusel de obras -->
+        <section class="carousel">
+            <h2>Obras</h2>
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    {% for obra in obra %}
+                        <div class="obra-img-container">
+                            <img src="{{ obra.image_path }}" alt="{{ obra.nom_obra }}" class="obra-img">
+                            <div class="obra-name">{{ obra.nom_obra }}</div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </section>
+        
     </main>
-    
 </body>
 </html>
