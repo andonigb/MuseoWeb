@@ -27,18 +27,23 @@
     <!-- Main content -->
     <main>
         <!-- Categoría 1: Artistas -->
-        <section class="carousel">
-            <h2>Artistas</h2>
-            <div class="carousel-container">
-                <div class="carousel-track">
-                    {% for artista in artistas %}
-                    <a href="{% url 'detalle_artista' nombre=artista.nombre %}">
-                        <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}">
-                    </a>                    
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
+       <!-- Categoría 1: Artistas -->
+<section class="carousel">
+    <h2>Artistas</h2>
+    <div class="carousel-container">
+        <div class="carousel-track">
+            {% for artista in artistas %}
+                <a href="{% url 'detalle_artista' nombre=artista.nombre %}" class="artista-item">
+                    <div class="artista-img-container">
+                        <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}" class="artista-img">
+                        <div class="artista-name">{{ artista.nombre }}</div>
+                    </div>
+                </a>                    
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
         
 
 
@@ -72,3 +77,4 @@
     </main>
 </body>
 </html>
+
