@@ -29,16 +29,9 @@
     <main class="artist-container">
         <!-- Museum Information -->
         <aside class="artist-info">
-            <h1>{{ obra.nom_obra }}</h1>
-
-            <h2><strong>Pintor: </strong></h2>
-            <p>{{ obra.artista }}</p>
-
+            <h1>{{ museo.nom_museo }}</h1>
             <h2><strong>Ubicación: </strong></h2>
-            <p>{{ obra.museo }}</p>
-
-            <h2><strong>Movimiento: </strong></h2>
-            <p>{{ obra.epoca }}</p>
+            <p>{{ museo.pais_museo }}</p>
             <div>
                 <h2>Historia</h2>
                 <!-- COMPLETAR TU  -->
@@ -61,13 +54,13 @@
 
         <!-- Carousel for artworks -->
         <section class="carousel">
-            <h2>{{ obra.nombre }}</h2>
+            <h2>Obras del museo</h2>
             <div class="carousel-container">
-                <div class="obra-img-container">
-                    <img src="{{ obra.image_path }}" alt="{{ obra.nombre }}" class="obra-img" 
-                            onmouseover="showImage('{{ obra.image_path }}')">
-                    <div class="obra-name">{{ o.nombre }}</div>
-                </div>
+                {% for o in obra %}
+                    <div class="obra-img-container">
+                        <img src="{{ o.image_path }}" alt="{{ o.nombre }}" class="obra-img" onmouseover="showImage('{{ o.image_path }}')">
+                    </div>
+                {% endfor %}
             </div>
         </section>
     </main>

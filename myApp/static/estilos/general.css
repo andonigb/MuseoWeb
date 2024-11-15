@@ -115,7 +115,8 @@ main {
 
 /* Carrusel de obras */
 .carousel {
-    width: 40%;
+    width: fit-content; 
+    max-width: 40%; 
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -125,6 +126,7 @@ main {
     border-radius: 8px;
     z-index: 100;
 }
+
 
 .carousel h2 {
     text-align: center;

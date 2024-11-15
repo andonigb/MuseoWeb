@@ -1,15 +1,12 @@
+
+
 /* Estilos generales */
 body {
-    /*
-    DEBERIAMOS METER FOTO DE FONDO DE PANTALLA O ALGO PARA QUE NO QUEDE TAN VACIO
-    background-image: url(../imagenes/fondoWeb.jpg);
-    background-size: cover;
-    */
     background-color: #1a1a1d;
     color: #e6e6e6;
     font-family: Arial, sans-serif;
     margin: 0;
-    overflow-x: hidden; 
+    overflow-x: hidden;
 }
 
 /* Encabezado */
@@ -78,7 +75,7 @@ main {
 .carousel {
     margin-bottom: 40px;
     text-align: center;
-    width: 80%; /* Ancho del carrusel */
+    width: 80%;
     padding: 10px;
     z-index: 100;
 }
@@ -90,47 +87,60 @@ main {
     margin-bottom: 10px;
 }
 
+/* Modificaciones para lista */
 .carousel-container {
     display: flex;
     gap: 15px;
     overflow-x: auto;
     scroll-behavior: smooth;
+    list-style: none; /* Elimina los puntos de la lista */
+    padding: 0;
+    margin: 0;
 }
 
-.carousel-container::-webkit-scrollbar {
-    display: none; 
+.carousel-container li {
+    flex: 0 0 auto;
+    position: relative;
+    text-align: center;
+ 
+
 }
 
-.carousel-container img {
-    height: 190px;
-    width: 254px;
+.carousel-container li img {
+    width: 214px;
+    height: 170px;
     border-radius: 30px;
     box-shadow: 15px 15px 30px rgb(25, 25, 25);
     object-fit: cover;
     transition: transform 0.3s;
 }
 
-.carousel-container img:hover {
+.carousel-container::-webkit-scrollbar {
+    display: none; 
+}
+.carousel-container li img:hover {
     transform: scale(1.1);
     cursor: pointer;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.6);
 }
 
-/* Nombre del artista (inicialmente oculto) */
-.artista-name {
+/* Nombre del artista */
+.name {
     position: absolute;
-    bottom: 0;
-    left: 2px;
-    right: 2px;
+    bottom: 5px;
+    left: 0;
+    right: 0;
     background-color: rgba(0, 0, 0, 0.6);
     color: white;
     padding: 10px;
     font-size: 16px;
     text-align: center;
-    border-radius: 8px;
+    border-radius: 30px;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-
+.carousel-container li:hover .name {
+    opacity: 1;
+}
 

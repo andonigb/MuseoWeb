@@ -30,45 +30,54 @@
     <main>
         <!-- Categoría 1: Artistas -->
        <!-- Categoría 1: Artistas -->
-<section class="carousel">
-    <h2>Artistas</h2>
-    <div class="carousel-container">
-        {% for artista in artistas %}
-            <a href="{% url 'detalle_artista' nombre=artista.nombre %}" class="artista-item">
-                <div class="artista-img-container">
-                    <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}" class="artista-img">
-                    <div class="artista-name">{{ artista.nombre }}</div>
-                </div>
-            </a>                    
-        {% endfor %}
-    </div>
-</section>
+       <section class="carousel">
+        <h2>Artistas</h2>
+        <ul class="carousel-container">
+            {% for artista in artistas %}
+                <li>
+                    <a href="{% url 'detalle_artista' nombre=artista.nombre %}">
+                        <div class="artista-img-container">
+                            <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}" class="artista-img">
+                            <div class="name">{{ artista.nombre }}</div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+    
+    <section class="carousel">
+        <h2>Museos</h2>
+        <ul class="carousel-container">
+            {% for museo in museos %}
+                <li>
+                    <a href="{% url 'detalle_museo' id=museo.id_museo %}">
+                        <div>
+                            <img src="{{ museo.image_path }}" alt="{{ museo.nombre }}">
+                            <div class="name">{{ museo.nombre }}</div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
 
-
-        <!-- Categoría 2: Movimientos -->
-        <section class="carousel">
-            <h2>Movimientos</h2>
-            <div class="carousel-container">
-                <img src="{% static 'imagenes/Movimientos/barroco.jpg' %}" alt="Barroco">
-                <img src="{% static 'imagenes/Movimientos/cubismo.webp' %}" alt="Cubismo">
-                <img src="{% static 'imagenes/Movimientos/renacimiento.jpg' %}" alt="Renacimiento">
-                <img src="{% static 'imagenes/Movimientos/surrealismo.webp' %}" alt="Surrealismo">
-                <img src="{% static 'imagenes/Movimientos/ukiyo-e.jpg' %}" alt="Ukiyo-e">
-
-            </div>
-        </section>
-
-        <!-- Categoría 3: Museos -->
-        <section class="carousel">
-            <h2>Museos</h2>
-            <div class="carousel-container">
-                <img src="{% static 'imagenes/Museos/Louvre/Logo.jpg' %}" alt="Louvre">
-                <img src="{% static 'imagenes/Museos/Prado/Logo.png' %}" alt="Prado">
-                <img src="{% static 'imagenes/Museos/MET/Logo.webp' %}" alt="MET">
-                <img src="{% static 'imagenes/Museos/Uffizi/Logo.jpg' %}" alt="Uffi">
-                <img src="{% static 'imagenes/Museos/Orsay/Logo.png' %}" alt="Orsay">
-            </div>
-        </section>
+    <section class="carousel">
+        <h2>Movimientos</h2>
+        <ul class="carousel-container">
+            {% for movimiento in movimientos %}
+                <li>
+                    <a href="{% url 'detalle_movimiento' id=movimiento.id_epoca %}">
+                        <div>
+                            <img src="{{ movimiento.image_path }}" alt="{{ movimiento.nombre }}">
+                            <div class="name">{{ movimiento.nombre }}</div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+        
     </main>
 </body>
 </html>

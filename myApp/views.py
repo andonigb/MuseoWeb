@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.templatetags.static import static
 from django.contrib import messages
 from django.conf import settings
-from .models import Usuario, Artista, Obras, Museo
+from .models import Usuario, Artista, Obras, Museo, Epoca
 
 def login_view(request):
     if request.method == 'POST':
@@ -12,22 +12,15 @@ def login_view(request):
         password = request.POST['password']
 
         try:
-            # Buscar el usuario en la base de datos
             usuario = Usuario.objects.get(usuario=username)
-
-            # Comparar la contraseña ingresada con la almacenada en la base de datos
             if usuario.password == password:
-                # Iniciar sesión (esto es solo un ejemplo, necesitarás gestionarlo de forma adecuada)
                 request.session['usuario_id'] = usuario.id_usuario
-                return redirect('paginaPrincipal')  # Redirigir a la página principal
-
+                return redirect('paginaPrincipal') 
             else:
-                # Si la contraseña no es correcta
                 error = 'Contraseña incorrecta'
                 return render(request, 'login.html', {'error': error})
         
         except Usuario.DoesNotExist:
-            # Si el usuario no existe
             error = 'Usuario no encontrado'
             return render(request, 'login.html', {'error': error})
 
@@ -37,40 +30,91 @@ def login_view(request):
 def principal_view(request):
     
     artistas = []
+    museos = []
+    movimientos = []
 
-    for artist in Artista.objects.all():  # Obtén los datos de cada artista desde la base de datos
+    for artist in Artista.objects.all(): 
         image_path = static(f'imagenes/artistas/{artist.nom_artista}/{artist.nom_artista}.jpg')
         artistas.append({'id_artista': artist.id_artista, 'nombre': artist.nom_artista, 'image_path': image_path})
+        
+    for museum in Museo.objects.all():
+        image_path = static(f'imagenes/museos/{museum.nom_museo}/Logo.jpg')
+        museos.append({'id_museo': museum.id_museo, 'nombre': museum.nom_museo, 'image_path': image_path})
 
-    return render(request, 'paginaPrincipal.html', {'artistas': artistas})
+    for movement in Epoca.objects.all():
+        image_path = static(f'imagenes/movimientos/{movement.nom_epoca}.jpg')
+        movimientos.append({'id_epoca': movement.id_epoca, 'nombre': movement.nom_epoca, 'fecha': movement.anyos_epoca, 'image_path': image_path})
+        print("RUTA: ",image_path)
+
+    return render(request, 'paginaPrincipal.html', {
+        'artistas': artistas,
+        'museos': museos,
+        'movimientos': movimientos,
+        })
 
 
 def detalle_artista(request, nombre):
-    # Obtén el artista desde la base de datos usando el nombre completo
-    artista_obj = get_object_or_404(Artista, nom_artista=nombre) 
-    # Obtén las obras del artista
-    obras = Obras.objects.filter(id_artista=artista_obj)
+    artista = get_object_or_404(Artista, nom_artista=nombre) 
     obra = []
-    for o in obras:
-        image_path = static(f'imagenes/artistas/{artista_obj.nom_artista}/obras/{o.nom_obra}.jpg')
-        obra.append({'image_path': image_path})
+
+    for o in Obras.objects.filter(id_artista=artista):
+        image_path = static(f'imagenes/artistas/{nombre}/obras/{o.nom_obra}.jpg')
+        obra.append({'id_obra': o.id_obra, 'nombre': o.nom_obra, 'image_path': image_path})
 
     return render(request, 'artista.html', {
-        'artista': artista_obj,
-        'obras': obras,
+        'artista': artista,
+        'obra': obra,
+    })
+
+def detalle_museo(request, id):
+    museo = get_object_or_404(Museo, id_museo=id)
+    obra = []
+
+    for o in Obras.objects.filter(id_museo=museo.id_museo):
+        artista_instance = get_object_or_404(Artista, id_artista=o.id_artista_id)
+        image_path = static(f'imagenes/artistas/{artista_instance.nom_artista}/obras/{o.nom_obra}.jpg')
+        obra.append({'id_obra': o.id_obra, 'nombre': o.nom_obra, 'museo': museo.nom_museo, 'image_path': image_path})
+
+    return render(request, 'museo.html', {
+        'museo': museo,
+        'obra': obra,
+    })
+
+def detalle_movimiento(request, id):
+    movimiento = get_object_or_404(Epoca, id_epoca=id)
+    obra = []
+    for o in Obras.objects.filter(id_epoca=movimiento.id_epoca):
+        artista_instance = get_object_or_404(Artista, id_artista=o.id_artista_id)
+        image_path = static(f'imagenes/artistas/{artista_instance.nom_artista}/obras/{o.nom_obra}.jpg')
+        obra.append({'id_obra': o.id_obra, 'nombre': o.nom_obra, 'image_path': image_path})
+
+    return render(request, 'movimiento.html', {
+        'movimiento': movimiento,
+        'obra': obra,
+    })
+
+from django.templatetags.static import static
+
+def detalle_obra(request, id):
+    obra_obj = get_object_or_404(Obras, id_obra=id)
+    
+    artista_instance = get_object_or_404(Artista, id_artista=obra_obj.id_artista_id)
+    museo_instance = get_object_or_404(Museo, id_museo=obra_obj.id_museo_id)
+    epoca_instance = get_object_or_404(Epoca, id_epoca=obra_obj.id_epoca_id)
+    
+    obra = {
+        'id_obra': obra_obj.id_obra,
+        'nombre': obra_obj.nom_obra,
+        'artista': artista_instance.nom_artista,
+        'museo': museo_instance.nom_museo,
+        'epoca': epoca_instance.nom_epoca,
+        'image_path': static(f'imagenes/artistas/{artista_instance.nom_artista}/obras/{obra_obj.nom_obra}.jpg')
+    }
+    
+    return render(request, 'obra.html', {
         'obra': obra, 
     })
 
-def detalle_obra(request, nombre):
-    obra = get_object_or_404(Obras, nom_obra=nombre, artista=artista_instance)
-    artista_instance = get_object_or_404(Artista, id_artista = obra.id_artista)
-    image_path = static(f'imagenes/artistas/{artista_instance.nom_artista}/obras/{nombre}.jpg')
-    path = [{'image_path': image_path}]
-
-    return render(request, 'obra.html', {
-        'obra': obra,
-        'path': path,
-    })
 
 
 
