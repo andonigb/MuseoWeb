@@ -21,7 +21,10 @@
             <button>🔍</button>
         </div>
         <div class="header-icons">
-            <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
+            <!-- Corazón redirige a la página de favoritos -->
+            <a href="{% url 'favoritos' %}">
+                <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
+            </a>
             <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
         </div>
     </header>
@@ -77,6 +80,26 @@
             {% endfor %}
         </ul>
     </section>
+
+    <section class="carousel">
+        <h2>Los más gustados</h2>
+        <ul class="carousel-container">
+            {% for obra in obras_mas_gustadas %}
+                <li>
+                    <a href="{% url 'detalle_obra' id=obra.id_obra %}">
+                        <div>
+                        
+                            <img src="{{ obra.image_path }}" alt="{{ obra.nombre }}">
+                            <div class="name">{{ obra.nombre }}</div>  
+                        </div>
+                    </a>
+                     <!-- Main content --<p class="me-gustas"><strong>Me gustas: {{ obra.num_meGustas }}</strong></p>*\-->
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+    
+    
         
     </main>
 </body>

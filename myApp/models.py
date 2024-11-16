@@ -53,9 +53,16 @@ class Obras(models.Model):
     def __str__(self):
         return self.nom_obra
 
-class favoritas(models.Model):
+class favoritasObras(models.Model):
     id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     id_obra = models.ForeignKey(Obras, on_delete=models.CASCADE)
+
+class favoritasArtista(models.Model):
+    id_usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
+class favoritasMuseos(models.Model):
+    id_usuario=models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    id_museo=models.ForeignKey(Museo, on_delete=models.CASCADE)
 
 class obrasArtista(models.Model):
     id_obra = models.ForeignKey(Obras, on_delete=models.CASCADE)

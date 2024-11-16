@@ -20,7 +20,10 @@
             <button>🔍</button>
         </div>
         <div class="header-icons">
-            <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
+            <!-- Corazón redirige a la página de favoritos -->
+            <a href="{% url 'favoritos' %}">
+                <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
+            </a>
             <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
         </div>
     </header>
@@ -51,6 +54,8 @@
 
                 </p>
             </div>
+            <p><strong>Me gustas: {{obra.num_meGustas}}</strong></p>
+            
         </aside>
 
 

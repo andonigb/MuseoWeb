@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.templatetags.static import static
 from django.contrib import messages
 from django.conf import settings
-from .models import Usuario, Artista, Obras, Museo, Epoca
+from .models import Usuario, Artista, Obras, Museo, Epoca, favoritasObras, favoritasArtista, favoritasMuseos
 
 def login_view(request):
     if request.method == 'POST':
@@ -32,6 +32,7 @@ def principal_view(request):
     artistas = []
     museos = []
     movimientos = []
+    obras_mas_gustadas=[]
 
     for artist in Artista.objects.all(): 
         image_path = static(f'imagenes/artistas/{artist.nom_artista}/{artist.nom_artista}.jpg')
@@ -46,10 +47,23 @@ def principal_view(request):
         movimientos.append({'id_epoca': movement.id_epoca, 'nombre': movement.nom_epoca, 'fecha': movement.anyos_epoca, 'image_path': image_path})
         print("RUTA: ",image_path)
 
+    for obra in Obras.objects.order_by('-num_meGustas')[:10]:
+        artista=obra.id_artista
+        image_path=static(f'imagenes/artistas/{artista.nom_artista}/obras/{obra.nom_obra}.jpg')
+        obras_mas_gustadas.append({
+            'id_obra':obra.id_obra,
+            'nombre': obra.nom_obra,
+            'image_path': image_path,
+            'num_meGustas': obra.num_meGustas,
+        })
+
+
+
     return render(request, 'paginaPrincipal.html', {
         'artistas': artistas,
         'museos': museos,
         'movimientos': movimientos,
+        'obras_mas_gustadas':obras_mas_gustadas,
         })
 
 
@@ -108,6 +122,7 @@ def detalle_obra(request, id):
         'artista': artista_instance.nom_artista,
         'museo': museo_instance.nom_museo,
         'epoca': epoca_instance.nom_epoca,
+        'num_meGustas': obra_obj.num_meGustas,
         'image_path': static(f'imagenes/artistas/{artista_instance.nom_artista}/obras/{obra_obj.nom_obra}.jpg')
     }
     
@@ -117,5 +132,27 @@ def detalle_obra(request, id):
 
 
 
-
+def favoritos_view(request):
+    usuario_id = request.session.get('usuario_id')
+    if not usuario_id:
+        return redirect('login')  
     
+    try:
+        usuario = Usuario.objects.get(id_usuario=usuario_id) 
+    except Usuario.DoesNotExist:
+        return redirect('login') 
+
+    obras_favoritas = favoritasObras.objects.filter(id_usuario=usuario)
+    artistas_favoritas = favoritasArtista.objects.filter(id_usuario=usuario)
+    museos_favoritas = favoritasMuseos.objects.filter(id_usuario=usuario)
+
+    obras_favoritas = [fav.id_obra for fav in obras_favoritas]
+    artistas_favoritas = [fav.id_artista for fav in artistas_favoritas]
+    museos_favoritas = [fav.id_museo for fav in museos_favoritas]
+
+    return render(request, 'favoritos.html', {
+        'obras_favoritas': obras_favoritas,
+        'artistas_favoritas': artistas_favoritas,
+        'museos_favoritas': museos_favoritas,
+    })
+

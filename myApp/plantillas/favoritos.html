@@ -1,0 +1,84 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Favoritos</title>
+    <link rel="stylesheet" href="{% static 'estilos/principal.css' %}">
+</head>
+<body>
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <a href="{% url 'paginaPrincipal' %}">
+                    <img src="{% static 'imagenes/Logo.png' %}" alt="Inicio" class="home-icon">
+                </a>
+            </div>
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar..." />
+                <button>🔍</button>
+            </div>
+            <div class="header-icons">
+                <!-- Corazón redirige a la página de favoritos -->
+                <a href="{% url 'favoritos' %}">
+                    <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
+                </a>
+                <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
+            </div>
+        </header>
+
+    <!-- Carrusel de Obras Favoritas -->
+    <section class="carousel">
+        <h2>Obras Favoritas</h2>
+        <ul class="carousel-container">
+            {% for obra in obras_favoritas %}
+                <li>
+                    <a href="{% url 'detalle_obra' id=obra.id_obra %}">
+                        <div>
+                            <img src="{{ obra.ruta_obra }}" alt="{{ obra.nom_obra }}">
+                            <div class="name">{{ obra.nom_obra }}</div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Carrusel de Artistas Favoritos -->
+    <section class="carousel">
+        <h2>Artistas Favoritos</h2>
+        <ul class="carousel-container">
+            {% for artista in artistas_favoritas %}
+                <li>
+                    <a href="{% url 'detalle_artista' nombre=artista.nom_artista %}">
+                        <div class="artista-img-container">
+                            <img src="{{ artista.ruta_artista }}" alt="{{ artista.nom_artista }}" class="artista-img">
+                            <div class="name">{{ artista.nom_artista }}</div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Carrusel de Museos Favoritos -->
+    <section class="carousel">
+        <h2>Museos Favoritos</h2>
+        <ul class="carousel-container">
+            {% for museo in museos_favoritas %}
+                <li>
+                    <a href="{% url 'detalle_museo' id=museo.id_museo %}">
+                        <div>
+                            <img src="{{ museo.ruta_museo }}" alt="{{ museo.nom_museo }}">
+                            <div class="name">{{ museo.nom_museo }}</div>
+                        </div>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+
+</body>
+</html>
