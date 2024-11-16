@@ -4,28 +4,63 @@ from django.templatetags.static import static
 from django.contrib import messages
 from django.conf import settings
 from .models import Usuario, Artista, Obras, Museo, Epoca, favoritasObras, favoritasArtista, favoritasMuseos
+from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth import authenticate, login
+
+
 
 def login_view(request):
     if request.method == 'POST':
-        # Obtener los datos del formulario
         username = request.POST['username']
         password = request.POST['password']
 
         try:
             usuario = Usuario.objects.get(usuario=username)
-            if usuario.password == password:
+            if check_password(password, usuario.password): 
+
                 request.session['usuario_id'] = usuario.id_usuario
-                return redirect('paginaPrincipal') 
+
+                user = authenticate(request, username=username, password=password)
+                if user is not None:
+                    login(request, user)
+
+         
+                return redirect('paginaPrincipal')  
             else:
-                error = 'Contraseña incorrecta'
-                return render(request, 'login.html', {'error': error})
-        
+                messages.error(request, 'Contraseña incorrecta')
+                return render(request, 'login.html')
+
         except Usuario.DoesNotExist:
-            error = 'Usuario no encontrado'
-            return render(request, 'login.html', {'error': error})
+            messages.error(request, 'Usuario no encontrado')
+            return render(request, 'login.html')
 
     return render(request, 'login.html')
 
+def register_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+      
+        if Usuario.objects.filter(usuario=username).exists():
+            messages.error(request, 'El nombre de usuario ya está en uso.')
+            return render(request, 'registro.html')
+
+        if Usuario.objects.filter(email=email).exists():
+            messages.error(request, 'El correo electrónico ya está registrado.')
+            return render(request, 'registro.html')
+
+     
+        password_hashed = make_password(password) 
+        usuario = Usuario(usuario=username, email=email, password=password_hashed)
+        usuario.save()
+
+  
+        messages.success(request, 'Registro exitoso. Ahora puedes iniciar sesión.')
+        return redirect('login')  
+
+    return render(request, 'registro.html') 
 
 def principal_view(request):
     

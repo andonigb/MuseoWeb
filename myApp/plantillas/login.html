@@ -8,11 +8,6 @@
   <link rel="stylesheet" href="{% static 'estilos/estiloLogin.css' %}">
 </head>
 <body>
-    <body>
-        <!-- Aquí no cambiamos el fondo, solo la caja de login -->
-        <div class="background-container">
-          <!-- El fondo se maneja desde el CSS y no se toca aquí -->
-        </div>
   <div class="wrapper">
     <form action="{% url 'login' %}" method="POST">
         {% csrf_token %}
