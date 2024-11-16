@@ -8,18 +8,17 @@
   <link rel="stylesheet" href="{% static 'estilos/estiloLogin.css' %}">
 </head>
 <body>
-    <body>
-        <!-- Aquí no cambiamos el fondo, solo la caja de login -->
-        <div class="background-container">
-          <!-- El fondo se maneja desde el CSS y no se toca aquí -->
-        </div>
   <div class="wrapper">
-    <form action="{% url 'login' %}" method="POST">
+    <form action="{% url 'registro' %}" method="POST">
         {% csrf_token %}
-      <h2>Inicio de sesión</h2>
+      <h2>Registro</h2>
         <div class="input-field">
         <input type="text" name="username" required>
         <label>Introduce tu usuario</label>
+      </div>
+      <div class="input-field">
+        <input type="email" name="email" required>
+        <label>Introduce tu email</label>
       </div>
       <div class="input-field">
         <input type="password" name="password" required>
@@ -32,10 +31,10 @@
         {% endfor %}
       </div>
     {% endif %}
-      <button type="submit">Iniciar sesión</button>
+      <button type="submit">Registrarse</button>
       <div class="register">
-        <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Registrarse</a></p>
-      </div>
+        <p>¿Ya tienes una cuenta?<a href="{% url 'login' %}">Iniciar sesión</a></p>
+    </div>
     </form>
   </div>
 </body>
