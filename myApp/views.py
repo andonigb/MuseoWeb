@@ -8,7 +8,6 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth import authenticate, login
 
 
-
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']

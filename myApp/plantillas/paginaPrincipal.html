@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Principal</title>
+    <title>Infinite Gallery</title>
     <link rel="stylesheet" href="{% static 'estilos/principal.css' %}">
 </head>
 <body>
@@ -17,9 +17,10 @@
             </a>
         </div>
         <div class="search-bar">
-            <input type="text" placeholder="Buscar..." />
+            <input type="text" id="search-input" placeholder="Buscar..." autocomplete="off" />
             <button>🔍</button>
         </div>
+
         <div class="header-icons">
             <!-- Corazón redirige a la página de favoritos -->
             <a href="{% url 'favoritos' %}">
@@ -31,8 +32,6 @@
 
     <!-- Main content -->
     <main>
-        <!-- Categoría 1: Artistas -->
-       <!-- Categoría 1: Artistas -->
        <section class="carousel">
         <h2>Artistas</h2>
         <ul class="carousel-container">

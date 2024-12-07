@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ obra.0.museo }}</title>
+    <title>Infinite Gallery</title>
     <link rel="stylesheet" href="{% static 'estilos/general.css' %}">
 </head>
 <body>
@@ -60,9 +60,11 @@
             <h2>Obras del museo</h2>
             <div class="carousel-container">
                 {% for o in obra %}
-                    <div class="obra-img-container">
-                        <img src="{{ o.image_path }}" alt="{{ o.nombre }}" class="obra-img" onmouseover="showImage('{{ o.image_path }}')">
-                    </div>
+                    <a href="{% url 'detalle_obra' id=o.id_obra %}">
+                        <div class="obra-img-container">
+                            <img src="{{ o.image_path }}" alt="{{ o.nombre }}" class="obra-img" onmouseover="showImage('{{ o.image_path }}')">
+                        </div>
+                    </a>
                 {% endfor %}
             </div>
         </section>
