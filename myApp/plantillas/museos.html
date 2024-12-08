@@ -1,0 +1,59 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Museos</title>
+    <link rel="stylesheet" href="{% static 'estilos/estilosPaginasGenerales.css' %}">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <a href="{% url 'paginaPrincipal' %}">
+                <img src="{% static 'imagenes/Logo.png' %}" alt="Inicio" class="home-icon">
+            </a>
+        </div>
+        <div class="searching-tool">
+            <select id="info-type" class="custom-select custom-select-lg mb-3">
+                <option value="" selected disabled>Select info type</option>
+                <option value="Artistas">Artistas</option>
+                <option value="Obras">Obras</option>
+                <option value="Museos">Museos</option>
+                <option value="Movimientos">Movimientos</option>
+            </select>
+        </div>
+
+        <div class="header-icons">
+            <!-- Corazón redirige a la página de favoritos -->
+            <a href="{% url 'favoritos' %}">
+                <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
+            </a>
+            <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <section class="carousel">
+            <h2>Museos</h2>
+            <ul class="carousel-container">
+                {% for museo in museos %}
+                    <li>
+                        <a href="{% url 'detalle_museo' id=museo.id_museo %}">
+                            <div class="museo-img-container">
+                                <img src="{{ museo.image_path }}" alt="{{ museo.nombre }}" class="museo-img">
+                                <div class="name">{{ museo.nombre }}</div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+    <script src="{% static 'scripts/buscador.js' %}"></script>
+</body>
+</html>

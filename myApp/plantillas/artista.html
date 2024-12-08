@@ -15,10 +15,16 @@
                 <img src="{% static 'imagenes/Logo.png' %}" alt="Inicio" class="home-icon">
             </a>
         </div>
-        <div class="search-bar">
-            <input type="text" placeholder="Buscar..." />
-            <button>🔍</button>
+        <div class="searching-tool">
+            <select id="info-type" class="custom-select custom-select-lg mb-3">
+                <option value="" selected disabled>Select info type</option>
+                <option value="Artistas">Artistas</option>
+                <option value="Obras">Obras</option>
+                <option value="Museos">Museos</option>
+                <option value="Movimientos">Movimientos</option>
+            </select>
         </div>
+
         <div class="header-icons">
             <!-- Corazón redirige a la página de favoritos -->
             <a href="{% url 'favoritos' %}">

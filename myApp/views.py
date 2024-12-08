@@ -164,8 +164,6 @@ def detalle_obra(request, id):
         'obra': obra, 
     })
 
-
-
 def favoritos_view(request):
     usuario_id = request.session.get('usuario_id')
     if not usuario_id:
@@ -190,3 +188,49 @@ def favoritos_view(request):
         'museos_favoritas': museos_favoritas,
     })
 
+
+def artistas_view(request):
+    artistas = []
+    for artist in Artista.objects.all(): 
+        image_path = static(f'imagenes/artistas/{artist.nom_artista}/{artist.nom_artista}.jpg')
+        artistas.append({'id_artista': artist.id_artista, 'nombre': artist.nom_artista, 'image_path': image_path})
+  
+    return render(request, 'artistas.html', {
+            'artistas': artistas,
+    })
+
+def obras_view(request):
+    obras=[]
+    for obra in Obras.objects.all():
+        artista=obra.id_artista
+        image_path=static(f'imagenes/artistas/{artista.nom_artista}/obras/{obra.nom_obra}.jpg')
+        obras.append({
+            'id_obra':obra.id_obra,
+            'nombre': obra.nom_obra,
+            'image_path': image_path,
+            'num_meGustas': obra.num_meGustas,
+        })
+    return render(request, 'obras.html', {
+        'obras':obras,
+    })
+
+def museos_view(request):
+    museos = []
+    for museum in Museo.objects.all():
+        image_path = static(f'imagenes/museos/{museum.nom_museo}/Logo.jpg')
+        museos.append({'id_museo': museum.id_museo, 'nombre': museum.nom_museo, 'image_path': image_path})
+
+    return render(request, 'museos.html', {
+        'museos': museos,
+    })
+    
+
+def movimientos_view(request):
+    movimientos = []
+    for movement in Epoca.objects.all():
+        image_path = static(f'imagenes/movimientos/{movement.nom_epoca}.jpg')
+        movimientos.append({'id_epoca': movement.id_epoca, 'nombre': movement.nom_epoca, 'fecha': movement.anyos_epoca, 'image_path': image_path})
+        print("RUTA: ",image_path)
+    return render(request, 'movimientos.html', {
+        'movimientos': movimientos,
+    })

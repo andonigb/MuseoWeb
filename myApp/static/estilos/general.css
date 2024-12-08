@@ -29,25 +29,30 @@ body {
 }
 
 /* Barra de búsqueda */
-.search-bar {
+.searching-tool {
+    flex-grow: 1; /* Permite que ocupe el máximo espacio disponible */
     display: flex;
-    align-items: center;
+    justify-content: center; /* Centra el contenido horizontalmente */
+    align-items: center; /* Centra el contenido verticalmente */
+    font-size: 20px; /* Aumenta el tamaño del texto del select */
 }
 
-.search-bar button {
-    margin-left: 10px;
-    padding: 10px;
-    border: none;
-    border-radius: 50%;
-    background-color: #4a4a4e;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.searching-tool select {
+    width: 60%; /* Hace que el selector ocupe el 60% del espacio del contenedor */
+    padding: 10px; /* Aumenta el tamaño del selector */
+    font-size: 1.2rem; /* Aumenta el tamaño del texto dentro del select */
+    border-radius: 10px; /* Bordes redondeados */
+    border: 2px solid #4a4a4e; /* Borde del select */
+    background-color: #2b2b2e; /* Color de fondo del selector */
+    color: white; /* Color del texto */
+    transition: all 0.3s ease; /* Transición suave en el hover */
 }
 
-.search-bar button:hover {
-    background-color: #616165;
+.searching-tool select:hover {
+    background-color: #4a4a4e; /* Cambia el color de fondo al pasar el ratón */
+    border-color: #616165; /* Cambia el borde al pasar el ratón */
 }
+
 
 /* Iconos favoritos y notificaciones */
 .header-icons img {
@@ -126,7 +131,6 @@ main {
     border-radius: 8px;
     z-index: 100;
 }
-
 
 .carousel h2 {
     text-align: center;
