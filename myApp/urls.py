@@ -15,4 +15,6 @@ urlpatterns = [
     path('obras/', views.obras_view, name='obras'),
     path('museos/', views.museos_view, name='museos'),
     path('movimientos/', views.movimientos_view, name='movimientos'),
+
+    path('search/', views.search_results, name='search'),
 ]

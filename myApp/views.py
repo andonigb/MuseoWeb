@@ -6,61 +6,74 @@ from django.conf import settings
 from .models import Usuario, Artista, Obras, Museo, Epoca, favoritasObras, favoritasArtista, favoritasMuseos
 from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth import authenticate, login
-
+from django.http import JsonResponse
+from django.urls import reverse
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
 
         try:
             usuario = Usuario.objects.get(usuario=username)
-            if check_password(password, usuario.password): 
-
+            if check_password(password, usuario.password):
                 request.session['usuario_id'] = usuario.id_usuario
-
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     login(request, user)
 
-         
-                return redirect('paginaPrincipal')  
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    return JsonResponse({'success': True, 'redirect_url': reverse('paginaPrincipal')})
+
+                return redirect('paginaPrincipal')
+
             else:
-                messages.error(request, 'Contraseña incorrecta')
+                error_message = 'Contraseña incorrecta'
+                if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                    return JsonResponse({'success': False, 'errors': [error_message]})
+                messages.error(request, error_message)
                 return render(request, 'login.html')
 
         except Usuario.DoesNotExist:
-            messages.error(request, 'Usuario no encontrado')
+            error_message = 'Usuario no encontrado'
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'errors': [error_message]})
+            messages.error(request, error_message)
             return render(request, 'login.html')
 
     return render(request, 'login.html')
 
 def register_view(request):
     if request.method == 'POST':
-        username = request.POST['username']
-        email = request.POST['email']
-        password = request.POST['password']
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        password = request.POST.get('password')
 
-      
         if Usuario.objects.filter(usuario=username).exists():
-            messages.error(request, 'El nombre de usuario ya está en uso.')
-            return render(request, 'registro.html')
+            error_message = 'El nombre de usuario ya está en uso.'
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'errors': [error_message]})
+            messages.error(request, error_message)
+            return render(request, 'login.html')
 
         if Usuario.objects.filter(email=email).exists():
-            messages.error(request, 'El correo electrónico ya está registrado.')
-            return render(request, 'registro.html')
+            error_message = 'El correo electrónico ya está registrado.'
+            if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+                return JsonResponse({'success': False, 'errors': [error_message]})
+            messages.error(request, error_message)
+            return render(request, 'login.html')
 
-     
-        password_hashed = make_password(password) 
+        password_hashed = make_password(password)
         usuario = Usuario(usuario=username, email=email, password=password_hashed)
         usuario.save()
 
-  
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'redirect_url': reverse('login')})
+
         messages.success(request, 'Registro exitoso. Ahora puedes iniciar sesión.')
-        return redirect('login')  
+        return redirect('login')
 
-    return render(request, 'registro.html') 
-
+    return render(request, 'login.html')
 def principal_view(request):
     
     artistas = []
@@ -234,3 +247,30 @@ def movimientos_view(request):
     return render(request, 'movimientos.html', {
         'movimientos': movimientos,
     })
+
+
+def search_results(request):
+    if request.accepts("application/json"):
+        res = None
+        obra = request.POST.get('obra')
+        print(obra)
+        qs = Obras.objects.filter(nom_obra__icontains=obra)
+        if len(qs) > 0 and len(obra) > 0:
+            data = []
+            for pos in qs:
+                item = {
+                    'nombre': pos.nom_obra,
+                    'id_obra': pos.id_obra
+                }
+                data.append(item)
+            res = data
+        else:
+            res = "No se encontro ninguna obra"
+        return JsonResponse({'data': res})
+
+    return JsonResponse({})
+     
+
+     
+
+

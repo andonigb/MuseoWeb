@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artistas</title>
-    <link rel="stylesheet" href="{% static 'estilos/estilosPaginasGenerales.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos/principal.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos/buscador.css' %}">
 </head>
 <body>
     <!-- Header -->
@@ -16,15 +17,15 @@
                 <img src="{% static 'imagenes/Logo.png' %}" alt="Inicio" class="home-icon">
             </a>
         </div>
-        <div class="searching-tool">
-            <select id="info-type" class="custom-select custom-select-lg mb-3">
-                <option value="" selected disabled>Select info type</option>
-                <option value="Artistas">Artistas</option>
-                <option value="Obras">Obras</option>
-                <option value="Museos">Museos</option>
-                <option value="Movimientos">Movimientos</option>
-              </select>
+        {% block content %}
+        <div class="buscador">
+            <form id="search-form" autocomplete="off" action="{% url 'search' %}">
+                {% csrf_token %}
+                <input type="text" id="search-input" class="search" placeholder="Buscar obras..">
+            </form>
+            <div id="results-box" class="results-card not-visible"></div>
         </div>
+        {% endblock content %}
 
         <div class="header-icons">
             <!-- Corazón redirige a la página de favoritos -->
@@ -54,6 +55,7 @@
         </section>
     </main>
 
-    <script src="{% static 'scripts/buscador.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
-<!-- Coding By CodingNepal - www.codingnepalweb.com -->
-<html>
+
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,34 +10,142 @@
 </head>
 <body>
   <div class="wrapper">
-    <form action="{% url 'login' %}" method="POST">
+    <!-- Formulario de Login -->
+    <div id="login-box">
+      <form id="login-form" autocomplete="off" action="{% url 'login' %}" method="POST">
         {% csrf_token %}
-      <h2>Inicio de sesión</h2>
+        <h2>Inicio de sesión</h2>
         <div class="input-field">
-        <input type="text" name="username" required>
-        <label>Introduce tu usuario</label>
-      </div>
-      <div class="input-field">
-        <input type="password" name="password" required>
-        <label>Introduce tu contraseña</label>
-      </div>
-      {% if messages %}
-      <div class="error-messages">
-        {% for message in messages %}
-        <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
-        {% endfor %}
-      </div>
-    {% endif %}
-      <button type="submit">Iniciar sesión</button>
-      <div class="register">
-        <p>¿No tienes cuenta? <a href="{% url 'registro' %}">Registrarse</a></p>
-      </div>
-    </form>
+            <input type="text" name="username" required>
+            <label>Introduce tu usuario</label>
+        </div>
+        <div class="input-field">
+            <input type="password" name="password" required>
+            <label>Introduce tu contraseña</label>
+        </div>
+        <div id="login-error-messages" class="error-messages">
+          {% if messages %}
+            {% for message in messages %}
+            <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <button type="submit">Iniciar sesión</button>
+        <div class="register">
+            <p>¿No tienes cuenta? <a href="#" id="show-register-form">Registrarse</a></p>
+        </div>
+      </form>
+    </div>
+
+    <!-- Formulario de Registro (oculto inicialmente) -->
+    <div id="register-box" style="display: none;">
+      <form id="register-form" autocomplete="off" action="{% url 'registro' %}" method="POST">
+        {% csrf_token %}
+        <h2>Registro</h2>
+        <div class="input-field">
+          <input type="text" name="username" required>
+          <label>Introduce tu usuario</label>
+        </div>
+        <div class="input-field">
+          <input type="email" name="email" required>
+          <label>Introduce tu email</label>
+        </div>
+        <div class="input-field">
+          <input type="password" name="password" required>
+          <label>Introduce tu contraseña</label>
+        </div>
+        <div id="register-error-messages" class="error-messages">
+          {% if messages %}
+            {% for message in messages %}
+            <div class="message {% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <button type="submit">Registrarse</button>
+        <div class="login">
+          <p>¿Ya tienes una cuenta? <a href="#" id="show-login-form">Iniciar sesión</a></p>
+        </div>
+      </form>
+    </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
-    alert( 'Para acceder a esta web, es necesario tener una cuenta registrada. Por favor, regístrate o inicia sesión con tu cuenta existente.' );
+    $(document).ready(function() {
+      // Cuando se hace clic en "Registrarse" desde el formulario de login
+      $("#show-register-form").on("click", function(e) {
+        e.preventDefault();
+        $("#login-box").hide(); // Ocultar formulario de login
+        $("#register-box").show(); // Mostrar formulario de registro
+      });
+
+      // Cuando se hace clic en "Iniciar sesión" desde el formulario de registro
+      $("#show-login-form").on("click", function(e) {
+        e.preventDefault();
+        $("#register-box").hide(); // Ocultar formulario de registro
+        $("#login-box").show(); // Mostrar formulario de login
+      });
+
+      // Enviar el formulario de login por AJAX
+      $("#login-form").on("submit", function(e) {
+        e.preventDefault(); // Evitar que se recargue la página
+
+        let formData = $(this).serialize(); // Serializa los datos del formulario
+
+        // Limpia mensajes anteriores
+        $("#login-error-messages").html("");
+
+        $.ajax({
+          url: $(this).attr("action"), // Usa la URL definida en el atributo action
+          type: "POST",
+          data: formData,
+          success: function(response) {
+            if (response.success) {
+              window.location.href = response.redirect_url; // Redirige a la URL proporcionada
+            } else {
+              // Muestra los errores en la caja de mensajes
+              let errors = response.errors;
+              for (let error of errors) {
+                $("#login-error-messages").append(`<div class="message error">${error}</div>`);
+              }
+            }
+          },
+          error: function() {
+            $("#login-error-messages").html('<div class="message error">Error inesperado. Intenta nuevamente.</div>');
+          }
+        });
+      });
+
+      // Enviar el formulario de registro por AJAX
+      $("#register-form").on("submit", function(e) {
+        e.preventDefault(); // Evitar que se recargue la página
+
+        let formData = $(this).serialize(); // Serializa los datos del formulario
+
+        // Limpia mensajes anteriores
+        $("#register-error-messages").html("");
+
+        $.ajax({
+          url: $(this).attr("action"), // Usa la URL definida en el atributo action
+          type: "POST",
+          data: formData,
+          success: function(response) {
+            if (response.success) {
+              window.location.href = response.redirect_url; // Redirige a la URL proporcionada
+            } else {
+              // Muestra los errores en la caja de mensajes
+              let errors = response.errors;
+              for (let error of errors) {
+                $("#register-error-messages").append(`<div class="message error">${error}</div>`);
+              }
+            }
+          },
+          error: function() {
+            $("#register-error-messages").html('<div class="message error">Error inesperado. Intenta nuevamente.</div>');
+          }
+        });
+      });
+    });
   </script>
-   
 </body>
 </html>

@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Gallery</title>
     <link rel="stylesheet" href="{% static 'estilos/principal.css' %}">
+    
 </head>
 <body>
     <!-- Header -->
@@ -16,18 +17,18 @@
                 <img src="{% static 'imagenes/Logo.png' %}" alt="Inicio" class="home-icon">
             </a>
         </div>
-        <div class="searching-tool">
-            <select id="info-type" class="custom-select custom-select-lg mb-3">
-                <option value="" selected disabled>Select info type</option>
-                <option value="Artistas">Artistas</option>
-                <option value="Obras">Obras</option>
-                <option value="Museos">Museos</option>
-                <option value="Movimientos">Movimientos</option>
-              </select>
+
+        {% block content %}
+        <div class="buscador">
+            <form id="search-form" autocomplete="off"  action="{% url 'search' %}" >
+                {% csrf_token %}
+                <input type="text" id="search-input" class="search" placeholder="Buscar obras..">
+            </form>
+            <div id="results-box" class="results-card not-visible"></div>
         </div>
+        {% endblock content %}
 
         <div class="header-icons">
-            <!-- Corazón redirige a la página de favoritos -->
             <a href="{% url 'favoritos' %}">
                 <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
             </a>
@@ -37,73 +38,71 @@
 
     <!-- Main content -->
     <main>
-       <section class="carousel">
-        <h2>Artistas</h2>
-        <ul class="carousel-container">
-            {% for artista in artistas %}
-                <li>
-                    <a href="{% url 'detalle_artista' nombre=artista.nombre %}">
-                        <div class="artista-img-container">
-                            <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}" class="artista-img">
-                            <div class="name">{{ artista.nombre }}</div>
-                        </div>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
-    
-    <section class="carousel">
-        <h2>Museos</h2>
-        <ul class="carousel-container">
-            {% for museo in museos %}
-                <li>
-                    <a href="{% url 'detalle_museo' id=museo.id_museo %}">
-                        <div>
-                            <img src="{{ museo.image_path }}" alt="{{ museo.nombre }}">
-                            <div class="name">{{ museo.nombre }}</div>
-                        </div>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
+        <section class="carousel">
+            <h2>Artistas</h2>
+            <ul class="carousel-container">
+                {% for artista in artistas %}
+                    <li>
+                        <a href="{% url 'detalle_artista' nombre=artista.nombre %}">
+                            <div class="artista-img-container">
+                                <img src="{{ artista.image_path }}" alt="{{ artista.nombre }}" class="artista-img">
+                                <div class="name">{{ artista.nombre }}</div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
 
-    <section class="carousel">
-        <h2>Movimientos</h2>
-        <ul class="carousel-container">
-            {% for movimiento in movimientos %}
-                <li>
-                    <a href="{% url 'detalle_movimiento' id=movimiento.id_epoca %}">
-                        <div>
-                            <img src="{{ movimiento.image_path }}" alt="{{ movimiento.nombre }}">
-                            <div class="name">{{ movimiento.nombre }}</div>
-                        </div>
-                    </a>
-                </li>
-            {% endfor %}
-        </ul>
-    </section>
+        <section class="carousel">
+            <h2>Museos</h2>
+            <ul class="carousel-container">
+                {% for museo in museos %}
+                    <li>
+                        <a href="{% url 'detalle_museo' id=museo.id_museo %}">
+                            <div>
+                                <img src="{{ museo.image_path }}" alt="{{ museo.nombre }}">
+                                <div class="name">{{ museo.nombre }}</div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
 
-    <section class="carousel">
-        <h2>Los más gustados</h2>
-        <ul class="carousel-container">
-            {% for obra in obras_mas_gustadas %}
-                <li>
-                    <a href="{% url 'detalle_obra' id=obra.id_obra %}">
-                        <div>
-                        
-                            <img src="{{ obra.image_path }}" alt="{{ obra.nombre }}">
-                            <div class="name">{{ obra.nombre }}</div>  
-                        </div>
-                    </a>
-                     <!-- Main content --<p class="me-gustas"><strong>Me gustas: {{ obra.num_meGustas }}</strong></p>*\-->
-                </li>
-            {% endfor %}
-        </ul>
-    </section>    
+        <section class="carousel">
+            <h2>Movimientos</h2>
+            <ul class="carousel-container">
+                {% for movimiento in movimientos %}
+                    <li>
+                        <a href="{% url 'detalle_movimiento' id=movimiento.id_epoca %}">
+                            <div>
+                                <img src="{{ movimiento.image_path }}" alt="{{ movimiento.nombre }}">
+                                <div class="name">{{ movimiento.nombre }}</div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <section class="carousel">
+            <h2>Los más gustados</h2>
+            <ul class="carousel-container">
+                {% for obra in obras_mas_gustadas %}
+                    <li>
+                        <a href="{% url 'detalle_obra' id=obra.id_obra %}">
+                            <div>
+                                <img src="{{ obra.image_path }}" alt="{{ obra.nombre }}">
+                                <div class="name">{{ obra.nombre }}</div>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </section>
     </main>
-    <script src="{% static 'scripts/buscador.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>
-
