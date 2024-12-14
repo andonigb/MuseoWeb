@@ -18,7 +18,7 @@
         </div>
         {% block content %}
         <div class="buscador">
-            <form id="search-form" autocomplete="off" action="{% url 'search' %}" >
+            <form id="search-form" autocomplete="off" action="{% url 'search' %}">
                 {% csrf_token %}
                 <input type="text" id="search-input" class="search" placeholder="Buscar obras..">
             </form>
@@ -27,11 +27,18 @@
         {% endblock content %}
 
         <div class="header-icons">
-            <!-- Corazón redirige a la página de favoritos -->
             <a href="{% url 'favoritos' %}">
                 <img src="{% static 'imagenes/Corazon.png' %}" alt="Favoritos" />
             </a>
-            <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
+            <a href="javascript:void(0)" id="notification-icon">
+                <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" id="notification-img"/>
+            </a>
+        </div>
+        
+    
+        <div id="notification-box" class="notification-box not-visible">
+            <h4 id="notification-title"></h4>
+            <p id="notification-info"></p>
         </div>
     </header>
     <!-- Main Content -->
@@ -98,5 +105,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
     <script src="{% static 'js/meGusta.js' %}"></script>
+    <script src="{% static 'js/noti.js' %}"></script>
 </body>
 </html>
