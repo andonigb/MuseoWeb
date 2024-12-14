@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-k@54he=ld1g-vs1j+p@7cg*)-%h@0e=)7*+$i__by0v#*2yv6e
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'museo-web-0o3a.onrender.com']
 
 
 STATIC_URL = '/static/'
