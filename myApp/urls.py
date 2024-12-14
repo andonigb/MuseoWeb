@@ -21,4 +21,6 @@ urlpatterns = [
     path('api/like/<int:obra_id>/', views.like_obra, name='like_obra'),
     path('api/like/artista/<int:artista_id>/', views.like_artista, name='like_artista'),
 
+    path('notification/', views.notification, name='notification'),
+
 ]

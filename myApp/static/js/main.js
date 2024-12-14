@@ -5,7 +5,7 @@ const searchForm = document.getElementById('search-form');
 const searchInput = document.getElementById('search-input');
 const resultsBox = document.getElementById('results-box');
 
-// Asegurémonos de que el CSRF token está disponible en el DOM
+
 const csrf = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 
 
@@ -22,7 +22,7 @@ const sendSearchData = (obra) => {
             const data = res.data;
             if(Array.isArray(data)){
                 resultsBox.innerHTML = "";
-                data.forEach(obra => { // Toma solo los primeros 5 elementos
+                data.forEach(obra => { 
                     resultsBox.innerHTML += `<a href="/obra/${obra.id_obra}/" class="result-item">
                         <div class="result-info">
                             <h4>${obra.nombre}</h4>
@@ -56,10 +56,10 @@ searchInput.addEventListener('keyup', e=>{
 })
 
 searchForm.addEventListener('keydown', function(e) {
-    // Verificamos si la tecla presionada es "Enter" (keyCode 13)
+
     if (e.key === 'Enter') {
-        e.preventDefault();  // Prevenir el envío del formulario
-        sendSearchData(searchInput.value);  // Llamar a la función para hacer la búsqueda
+        e.preventDefault();  
+        sendSearchData(searchInput.value);  
     }
 });
 

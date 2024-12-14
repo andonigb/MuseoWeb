@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
+import random
 
 def login_view(request):
     if request.method == 'POST':
@@ -383,6 +384,20 @@ def like_artista(request, artista_id):
 
     return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
      
+
+
+
+def notification(request):
+    if request.accepts("application/json") and request.method == 'GET':
+        obra = Obras.objects.order_by('?').first()  
+        data = {
+            'nombre_obra': obra.nom_obra,
+            'info': obra.info,
+            'id_obra': obra.id_obra
+        }
+        return JsonResponse({'data': data})
+    return JsonResponse({'error': 'Not found'}, status=404)
+
 
      
 
