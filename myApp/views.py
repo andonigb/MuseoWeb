@@ -129,19 +129,21 @@ def detalle_artista(request, nombre):
         image_path = static(f'imagenes/artistas/{nombre}/obras/{o.nom_obra}.jpg')
         obras_data.append({'id_obra': o.id_obra, 'nombre': o.nom_obra, 'image_path': image_path})
     
-    # Verificar si el usuario ha dado like al artista
-    is_liked = False  # Valor por defecto
-    if request.user.is_authenticated:
-        # Verificar si el artista está en los favoritos del usuario
-        if favoritasArtista.objects.filter(id_usuario=request.user, id_artista=artista).exists():
+    usuario_id = request.session.get('usuario_id')
+    is_liked = False  # Valor predeterminado
+    if usuario_id:
+        usuario = get_object_or_404(Usuario, id_usuario=usuario_id)
+        # Verificar si la obra está en favoritos
+        if favoritasArtista.objects.filter(id_usuario=usuario, id_artista=artista.id_artista).exists():
             is_liked = True
     
     # Renderizar la página de detalle del artista con la información de "like"
     return render(request, 'artista.html', {
         'artista': artista,
         'obra': obras_data,
-        'is_liked': is_liked,  # Información sobre si el artista tiene "like" del usuario
-    })
+        'is_liked': is_liked,  # Información sobre si el artista tiene "like" del usuario
+        })
+
 
 def detalle_museo(request, id):
     museo = get_object_or_404(Museo, id_museo=id)
