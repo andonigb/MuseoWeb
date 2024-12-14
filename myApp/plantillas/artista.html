@@ -53,6 +53,18 @@
                 <h2>Curiosidades</h2>
                 <p>{{ artista.curiosidades }}</p>
             </div>
+
+            <button class="like-button" data-artista-id="{{ artista.id_artista }}" onclick="toggleLikeArtist(this)">
+                <img 
+                    id="like-icon-{{ artista.id_artista }}" 
+                    alt="Me Gusta"
+                    {% if is_liked %}
+                        src="{% static 'imagenes/Corazon_Rojo.png' %}"  
+                    {% else %}
+                        src="{% static 'imagenes/Corazon.png' %}"  
+                    {% endif %}
+                >
+            </button>
             
         </aside>
 
@@ -85,5 +97,6 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/meGusta.js' %}"></script>
 </body>
 </html>

@@ -63,7 +63,7 @@
                 <li>
                     <a href="{% url 'detalle_artista' nombre=artista.nom_artista %}">
                         <div class="artista-img-container">
-                            <img src="{% static 'imagenes/artistas/' %}{{ artista.nom_artista }}.jpg" alt="{{ artista.nom_artista }}" class="artista-img">
+                            <img src="{% static 'imagenes/artistas/' %}{{ artista.nom_artista }}/{{ artista.nom_artista }}.jpg" alt="{{ artista.nom_artista }}" class="artista-img">
                             <div class="name">{{ artista.nom_artista }}</div>
                         </div>
                     </a>

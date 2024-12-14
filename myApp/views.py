@@ -116,16 +116,30 @@ def principal_view(request):
 
 
 def detalle_artista(request, nombre):
-    artista = get_object_or_404(Artista, nom_artista=nombre) 
-    obra = []
-
-    for o in Obras.objects.filter(id_artista=artista):
+    # Obtener el artista por su nombre
+    artista = get_object_or_404(Artista, nom_artista=nombre)
+    
+    # Obtener las obras relacionadas con el artista
+    obras = Obras.objects.filter(id_artista=artista)
+    
+    # Crear una lista de las obras con su información
+    obras_data = []
+    for o in obras:
         image_path = static(f'imagenes/artistas/{nombre}/obras/{o.nom_obra}.jpg')
-        obra.append({'id_obra': o.id_obra, 'nombre': o.nom_obra, 'image_path': image_path})
-
+        obras_data.append({'id_obra': o.id_obra, 'nombre': o.nom_obra, 'image_path': image_path})
+    
+    # Verificar si el usuario ha dado like al artista
+    is_liked = False  # Valor por defecto
+    if request.user.is_authenticated:
+        # Verificar si el artista está en los favoritos del usuario
+        if favoritasArtista.objects.filter(id_usuario=request.user, id_artista=artista).exists():
+            is_liked = True
+    
+    # Renderizar la página de detalle del artista con la información de "like"
     return render(request, 'artista.html', {
         'artista': artista,
-        'obra': obra,
+        'obra': obras_data,
+        'is_liked': is_liked,  # Información sobre si el artista tiene "like" del usuario
     })
 
 def detalle_museo(request, id):
@@ -320,6 +334,47 @@ def like_obra(request, obra_id):
                 'success': True, 
                 'is_liked': is_liked, 
                 'num_meGustas': obra.num_meGustas,
+                'redHeartUrl': red_heart_url,
+                'defaultHeartUrl': default_heart_url
+            })
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+
+    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
+
+def like_artista(request, artista_id):
+    if request.method == "POST":
+        try:
+            # Obtener el artista
+            artista = get_object_or_404(Artista, id_artista=artista_id)
+            
+            # Verificar si el usuario está autenticado
+            usuario_id = request.session.get('usuario_id')
+            if not usuario_id:
+                return JsonResponse({'success': False, 'message': 'Usuario no autenticado'}, status=401)
+            
+            # Obtener la instancia del usuario
+            usuario = get_object_or_404(Usuario, id_usuario=usuario_id)
+
+            # Verificar si el artista ya está en favoritos
+            favoritos_entry = favoritasArtista.objects.filter(id_usuario=usuario, id_artista=artista).first()
+
+            if favoritos_entry:
+                # Si ya está en favoritos, eliminarla (unlike)
+                favoritos_entry.delete()
+                is_liked = False  # Indica que ya no está en favoritos
+            else:
+                # Si no está en favoritos, añadirla (like)
+                favoritasArtista.objects.create(id_usuario=usuario, id_artista=artista)
+                is_liked = True  # Indica que ahora está en favoritos
+
+            # Generar las URLs de los íconos del corazón
+            red_heart_url = static('/imagenes/Corazon_Rojo.png')
+            default_heart_url = static('/imagenes/Corazon.png')
+
+            return JsonResponse({
+                'success': True, 
+                'is_liked': is_liked, 
                 'redHeartUrl': red_heart_url,
                 'defaultHeartUrl': default_heart_url
             })
