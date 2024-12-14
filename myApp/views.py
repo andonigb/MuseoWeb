@@ -167,6 +167,7 @@ def detalle_obra(request, id):
     obra = {
         'id_obra': obra_obj.id_obra,
         'nombre': obra_obj.nom_obra,
+        'info': obra_obj.info,
         'artista': artista_instance.nom_artista,
         'museo': museo_instance.nom_museo,
         'epoca': epoca_instance.nom_epoca,

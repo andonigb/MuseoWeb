@@ -48,14 +48,9 @@
             <p>{{ obra.epoca }}</p>
             <div>
                 <h2>Historia</h2>
-                <!-- COMPLETAR TU  -->
+                <!-- Aquí mostramos la información de la obra que viene de la base de datos -->
                 <p>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Suspendisse potenti. Integer eget diam eu lectus efficitur viverra a non nulla. Proin fermentum, erat vel interdum cursus, ex orci aliquam nunc, et aliquam sapien felis non elit. Donec fringilla, nisl et elementum faucibus, elit urna laoreet nulla, in tincidunt metus quam in ipsum.
-
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Suspendisse potenti. Integer eget diam eu lectus efficitur viverra a non nulla. Proin fermentum, erat vel interdum cursus, ex orci aliquam nunc, et aliquam sapien felis non elit. Donec fringilla, nisl et elementum faucibus, elit urna laoreet nulla, in tincidunt metus quam in ipsum.
-
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Suspendisse potenti. Integer eget diam eu lectus efficitur viverra a non nulla. Proin fermentum, erat vel interdum cursus, ex orci aliquam nunc, et aliquam sapien felis non elit. Donec fringilla, nisl et elementum faucibus, elit urna laoreet nulla, in tincidunt metus quam in ipsum.
-
+                    {{ obra.info }}
                 </p>
             </div>
             <button class="like-button" data-obra-id="{{ obra.id_obra }}" onclick="toggleLike(this)">
@@ -70,10 +65,7 @@
             </button>
             <!-- Contador de "Me gusta" -->
             <p id="like-count-{{ obra.id_obra }}">Me gusta: {{ obra.num_meGustas }}</p>
-
-            
         </aside>
-
 
         <!-- Large image display area -->
         <div class="pictures">
@@ -86,7 +78,7 @@
                 <div class="obra-img-container">
                     <img src="{{ obra.image_path }}" alt="{{ obra.nombre }}" class="obra-img" 
                             onmouseover="showImage('{{ obra.image_path }}')">
-                    <div class="obra-name">{{ o.nombre }}</div>
+                    <div class="obra-name">{{ obra.nombre }}</div>
                 </div>
             </div>
         </section>
