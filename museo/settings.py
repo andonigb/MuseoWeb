@@ -31,7 +31,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'museo-web-0o3a.onrender.com']
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'myApp/static')]
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # This is where static files will be collected
 
 # Application definition
 INSTALLED_APPS = [
