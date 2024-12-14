@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Gallery</title>
     <link rel="stylesheet" href="{% static 'estilos/general.css' %}">
-    <link rel="stylesheet" href="{% static 'estilos/buscador.css' %}">
+    <link rel="stylesheet" href="{% static 'estilos/form.css' %}">
 </head>
 <body>
     <header class="header">
@@ -36,32 +36,55 @@
     
     <!-- Main Content -->
     <main class="artist-container">
-        <!-- Museum Information -->
         <aside class="artist-info">
             <h1>{{ museo.nom_museo }}</h1>
             <h2><strong>Ubicación: </strong></h2>
             <p>{{ museo.pais_museo }}</p>
             <div>
                 <h2>Historia</h2>
-                <!-- COMPLETAR TU  -->
                 <p>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Suspendisse potenti. Integer eget diam eu lectus efficitur viverra a non nulla. Proin fermentum, erat vel interdum cursus, ex orci aliquam nunc, et aliquam sapien felis non elit. Donec fringilla, nisl et elementum faucibus, elit urna laoreet nulla, in tincidunt metus quam in ipsum.
-
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Suspendisse potenti. Integer eget diam eu lectus efficitur viverra a non nulla. Proin fermentum, erat vel interdum cursus, ex orci aliquam nunc, et aliquam sapien felis non elit. Donec fringilla, nisl et elementum faucibus, elit urna laoreet nulla, in tincidunt metus quam in ipsum.
-
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Suspendisse potenti. Integer eget diam eu lectus efficitur viverra a non nulla. Proin fermentum, erat vel interdum cursus, ex orci aliquam nunc, et aliquam sapien felis non elit. Donec fringilla, nisl et elementum faucibus, elit urna laoreet nulla, in tincidunt metus quam in ipsum.
-
                 </p>
             </div>
+
+            <!-- Formulario de compra de entradas -->
+            <div class="ticket-form">
+                <h2>Compra tus entradas</h2>
+                <form id="ticketForm" action="#" method="post">
+                    {% csrf_token %}
+                    <label for="nombre">Nombre y Apellidos:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+            
+                    <label for="email">Correo electrónico:</label>
+                    <input type="email" id="email" name="email" required>
+            
+                    <label for="fecha">Fecha de visita:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+            
+                    <label for="hora">Hora de visita:</label>
+                    <input type="time" id="hora" name="hora" required>
+            
+                    <label for="tarjeta">Número de tarjeta:</label>
+                    <input type="text" id="tarjeta" name="tarjeta" pattern="\d{16}" placeholder="1234567812345678" required>
+            
+                    <button type="submit" id="comprarBtn">Comprar entradas</button>
+                    
+                </form>
+            </div>
+
+            <div id="compraExito" class="popup">
+                <div class="popup-content">
+                    <h2>Compra realizada con éxito</h2>
+                    <button id="cerrarPopup" class="popup-btn">Cerrar</button>
+                </div>
+            </div>
+            
         </aside>
 
-
-        <!-- Large image display area -->
         <div class="pictures">
             <img src="{% static 'imagenes/default.jpg' %}" id="selected-image">
         </div>
 
-        <!-- Carousel for artworks -->
         <section class="carousel">
             <h2>Obras del museo</h2>
             <div class="carousel-container">
@@ -83,5 +106,6 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/validacionFormulario.js' %}"></script>
 </body>
 </html>
