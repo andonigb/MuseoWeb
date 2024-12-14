@@ -17,4 +17,6 @@ urlpatterns = [
     path('movimientos/', views.movimientos_view, name='movimientos'),
 
     path('search/', views.search_results, name='search'),
+
+    path('api/like/<int:obra_id>/', views.like_obra, name='like_obra'),
 ]

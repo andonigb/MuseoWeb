@@ -8,6 +8,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth import authenticate, login
 from django.http import JsonResponse
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 def login_view(request):
     if request.method == 'POST':
@@ -158,11 +159,11 @@ from django.templatetags.static import static
 
 def detalle_obra(request, id):
     obra_obj = get_object_or_404(Obras, id_obra=id)
-    
+
     artista_instance = get_object_or_404(Artista, id_artista=obra_obj.id_artista_id)
     museo_instance = get_object_or_404(Museo, id_museo=obra_obj.id_museo_id)
     epoca_instance = get_object_or_404(Epoca, id_epoca=obra_obj.id_epoca_id)
-    
+
     obra = {
         'id_obra': obra_obj.id_obra,
         'nombre': obra_obj.nom_obra,
@@ -172,9 +173,19 @@ def detalle_obra(request, id):
         'num_meGustas': obra_obj.num_meGustas,
         'image_path': static(f'imagenes/artistas/{artista_instance.nom_artista}/obras/{obra_obj.nom_obra}.jpg')
     }
-    
+
+    # Comprobar si el usuario ha iniciado sesión y si la obra está en sus favoritos
+    usuario_id = request.session.get('usuario_id')
+    is_liked = False  # Valor predeterminado
+    if usuario_id:
+        usuario = get_object_or_404(Usuario, id_usuario=usuario_id)
+        # Verificar si la obra está en favoritos
+        if favoritasObras.objects.filter(id_usuario=usuario, id_obra=obra_obj).exists():
+            is_liked = True
+
     return render(request, 'obra.html', {
-        'obra': obra, 
+        'obra': obra,
+        'is_liked': is_liked,  # Enviar la información de si está en favoritos
     })
 
 def favoritos_view(request):
@@ -269,6 +280,52 @@ def search_results(request):
         return JsonResponse({'data': res})
 
     return JsonResponse({})
+
+def like_obra(request, obra_id):
+    if request.method == "POST":
+        try:
+            # Obtener la obra
+            obra = get_object_or_404(Obras, id_obra=obra_id)
+            
+            # Verificar si el usuario está autenticado
+            usuario_id = request.session.get('usuario_id')
+            if not usuario_id:
+                return JsonResponse({'success': False, 'message': 'Usuario no autenticado'}, status=401)
+            
+            # Obtener la instancia del usuario
+            usuario = get_object_or_404(Usuario, id_usuario=usuario_id)
+
+            # Verificar si la obra ya está en favoritos
+            favoritos_entry = favoritasObras.objects.filter(id_usuario=usuario, id_obra=obra).first()
+
+            if favoritos_entry:
+                # Si ya está en favoritos, eliminarla (unlike)
+                favoritos_entry.delete()
+                obra.num_meGustas -= 1
+                obra.save()
+                is_liked = False  # Indica que ya no está en favoritos
+            else:
+                # Si no está en favoritos, añadirla (like)
+                favoritasObras.objects.create(id_usuario=usuario, id_obra=obra)
+                obra.num_meGustas += 1
+                obra.save()
+                is_liked = True  # Indica que ahora está en favoritos
+
+            # Generar las URLs de los íconos del corazón
+            red_heart_url = static('/imagenes/Corazon_Rojo.png')
+            default_heart_url = static('/imagenes/Corazon.png')
+
+            return JsonResponse({
+                'success': True, 
+                'is_liked': is_liked, 
+                'num_meGustas': obra.num_meGustas,
+                'redHeartUrl': red_heart_url,
+                'defaultHeartUrl': default_heart_url
+            })
+        except Exception as e:
+            return JsonResponse({'success': False, 'message': str(e)}, status=500)
+
+    return JsonResponse({'success': False, 'message': 'Método no permitido'}, status=405)
      
 
      

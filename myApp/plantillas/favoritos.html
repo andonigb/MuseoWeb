@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinite Gallery</title>
     <link rel="stylesheet" href="{% static 'estilos/principal.css' %}">
+
 </head>
 <body>
     <header class="header">
@@ -42,7 +43,7 @@
                 <li>
                     <a href="{% url 'detalle_obra' id=obra.id_obra %}">
                         <div>
-                            <img src="{{ obra.ruta_obra }}" alt="{{ obra.nom_obra }}">
+                            <img src="{% static 'imagenes/artistas/' %}{{ obra.id_artista.nom_artista }}/obras/{{ obra.nom_obra }}.jpg" alt="{{ obra.nom_obra }}">
                             <div class="name">{{ obra.nom_obra }}</div>
                         </div>
                     </a>
@@ -59,7 +60,7 @@
                 <li>
                     <a href="{% url 'detalle_artista' nombre=artista.nom_artista %}">
                         <div class="artista-img-container">
-                            <img src="{{ artista.ruta_artista }}" alt="{{ artista.nom_artista }}" class="artista-img">
+                            <img src="{% static 'imagenes/artistas/' %}{{ artista.nom_artista }}.jpg" alt="{{ artista.nom_artista }}" class="artista-img">
                             <div class="name">{{ artista.nom_artista }}</div>
                         </div>
                     </a>
@@ -76,7 +77,7 @@
                 <li>
                     <a href="{% url 'detalle_museo' id=museo.id_museo %}">
                         <div>
-                            <img src="{{ museo.ruta_museo }}" alt="{{ museo.nom_museo }}">
+                            <img src="{% static 'imagenes/Museos/' %}{{ museo.nom_museo }}/Logo.jpg" alt="{{ museo.nom_museo }}">
                             <div class="name">{{ museo.nom_museo }}</div>
                         </div>
                     </a>
@@ -84,6 +85,8 @@
             {% endfor %}
         </ul>
     </section>
-    <script src="{% static 'scripts/buscador.js' %}"></script>
+    
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
 </html>

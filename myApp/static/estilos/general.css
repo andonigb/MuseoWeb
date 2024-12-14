@@ -166,4 +166,16 @@ main {
 }
 
 
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.like-button img {
+    width: 24px;
+    height: 24px;
+}
+
+
 

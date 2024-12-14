@@ -59,7 +59,19 @@
 
                 </p>
             </div>
-            <p><strong>Me gustas: {{obra.num_meGustas}}</strong></p>
+            <button class="like-button" data-obra-id="{{ obra.id_obra }}" onclick="toggleLike(this)">
+                <img 
+                    id="like-icon-{{ obra.id_obra }}" 
+                    alt="Me Gusta"
+                    {% if is_liked %}
+                        src="{% static 'imagenes/Corazon_Rojo.png' %}"  
+                    {% else %}
+                        src="{% static 'imagenes/Corazon.png' %}"  
+                    {% endif %}>
+            </button>
+            <!-- Contador de "Me gusta" -->
+            <p id="like-count-{{ obra.id_obra }}">Me gusta: {{ obra.num_meGustas }}</p>
+
             
         </aside>
 
@@ -89,5 +101,6 @@
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <script src="{% static 'js/meGusta.js' %}"></script>
 </body>
 </html>
