@@ -126,7 +126,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Función para mover las imágenes dentro del contenedor
             const moveCarousel = () => {
-                currentOffset += 0.5; // Incremento suave
+                // Incremento basado en el tiempo para una velocidad constante
+                const speed = 0.5; // Velocidad constante
+                currentOffset += speed; // Aumentar el desplazamiento con cada fotograma
 
                 // Cuando el carrusel llega al final de las imágenes (originales + clones), reseteamos la posición para hacerlo infinito
                 if (currentOffset >= itemWidth * totalItems) {
@@ -138,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 carousel.animationId = requestAnimationFrame(moveCarousel); // Mantén el movimiento
             };
 
-            moveCarousel();
+            moveCarousel(); // Inicia el movimiento del carrusel
         };
 
         checkImagesLoaded();
