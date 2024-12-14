@@ -3,8 +3,10 @@ services:
     plan: free
     name: museo-web        # Nombre del servicio
     runtime: python
-    buildCommand: "pip install -r requirements.txt"  # Instalación de dependencias
-    startCommand: "python -m gunicorn museo.asgi:application -k uvicorn.workers.UvicornWorker"
+    buildCommand: |
+      pip install -r requirements.txt  # Instalar las dependencias
+      python manage.py collectstatic --noinput  # Ejecuta collectstatic para recopilar los archivos estáticos
+    startCommand: "python -m gunicorn museo.asgi:application -k uvicorn.workers.UvicornWorker"  # Inicia el servidor
     envVars:
       - key: SECRET_KEY
         generateValue: true
