@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="{% static 'estilos/principal.css' %}">
 
 </head>
+
 <body>
     <header class="header">
+        
         <div class="logo">
             <a href="{% url 'paginaPrincipal' %}">
                 <img src="{% static 'imagenes/Logo.png' %}" alt="Inicio" class="home-icon">
@@ -34,6 +36,7 @@
             <img src="{% static 'imagenes/notificaciones.png' %}" alt="Notificaciones" />
         </div>
     </header>
+    <main>
 
     <!-- Carrusel de Obras Favoritas -->
     <section class="carousel">
@@ -85,8 +88,9 @@
             {% endfor %}
         </ul>
     </section>
-    
+</main>   
 </body>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="{% static 'js/main.js' %}"></script>
 </html>
